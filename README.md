@@ -1,2 +1,4 @@
-# InteriorDesignShowcase
-Premium interior design business web application with admin dashboard, employee management, customer portfolio showcase, and lead generation
+node_modules
+dist
+.vite
+.DS_Store
