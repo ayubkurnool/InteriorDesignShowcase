@@ -1,0 +1,10 @@
+import bcrypt from 'bcryptjs';
+import Database from 'better-sqlite3';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const dir = path.dirname(fileURLToPath(import.meta.url));
+const db = new Database(path.join(dir, 'interior.db'));
+const hash = (password) => bcrypt.hashSync(password, 12);
+db.prepare('UPDATE users SET password_hash = ? WHERE email = ?').run(hash('Admin@123'), 'admin@interior.com');
+db.prepare('UPDATE users SET password_hash = ? WHERE email = ?').run(hash('Employee@123'), 'employee@interior.com');
+console.log('Demo staff credentials seeded.');
