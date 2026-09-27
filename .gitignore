@@ -4,3 +4,5 @@ dist
 .DS_Store
 server/interior.db
 .env
+.env.local
+.env.production

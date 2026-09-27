@@ -1,237 +1,136 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
+# Atelier Forme - Full-Stack Interior Design App
 
-:root {
-  --bg: #f4efe9;
-  --bg-strong: #efe3d7;
-  --panel: rgba(255, 255, 255, 0.7);
-  --panel-solid: #fffdf9;
-  --card: #f8f4f0;
-  --ink: #1c1816;
-  --muted: #715e56;
-  --sage: #cbb7a3;
-  --champagne: #e3d1ad;
-  --line: rgba(25, 20, 19, 0.08);
-  --shadow: 0 30px 80px rgba(36, 25, 23, 0.12);
-}
+## Production Deployment on Vercel + Render
 
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: 'Inter', sans-serif;
-  background: radial-gradient(circle at top, rgba(200, 163, 120, 0.2), transparent 30%), linear-gradient(135deg, #f5efe9 0%, #efe6dd 40%, #f5f0eb 100%);
-  color: var(--ink);
-}
+### Frontend (Vercel)
 
-a { color: inherit; text-decoration: none; }
-button, input, select, textarea { font: inherit; }
-button { border: none; cursor: pointer; }
-img { display: block; width: 100%; }
-#root { width: 100%; }
+1. **Push to GitHub** (already done: `ayubkurnool/InteriorDesignShowcase`)
 
-.app-shell {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 24px 24px 80px;
-}
+2. **Deploy to Vercel**:
+   - Go to [vercel.com](https://vercel.com)
+   - Click "Add New" → "Project"
+   - Import repository: `ayubkurnool/InteriorDesignShowcase`
+   - Framework: **Vite**
+   - Root directory: `.`
+   - Build command: `npm run build`
+   - Output directory: `dist`
 
-.topbar {
-  position: sticky;
-  top: 16px;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 18px 24px;
-  background: rgba(255, 255, 255, 0.58);
-  border: 1px solid var(--line);
-  backdrop-filter: blur(18px);
-  border-radius: 22px;
-  box-shadow: 0 18px 50px rgba(34, 23, 19, 0.08);
-}
+3. **Set Environment Variables** in Vercel Project Settings → Environment Variables:
+   ```
+   VITE_API_URL=https://your-render-backend-url.onrender.com
+   ```
+   Replace `your-render-backend-url` with your actual Render service URL.
 
-.brand-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+4. **Deploy** → Vercel will build and host the frontend.
 
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #2a221e, #8f7364);
-  color: #fff;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.1rem;
-  font-weight: 700;
-}
+---
 
-.brand-wrap h1 { margin: 0; font-size: 1.06rem; font-weight: 600; }
+### Backend (Render)
 
-.eyebrow { margin: 0; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
-.eyebrow.muted { color: rgba(28, 24, 22, 0.7); }
+1. **Prepare Backend for Render**:
+   - Create a `server/.env.production` file (not committed):
+     ```
+     PORT=10000
+     JWT_SECRET=your-super-secure-random-string-here
+     CLIENT_URL=https://your-vercel-frontend-url.vercel.app
+     NODE_ENV=production
+     ```
+   - Render will use environment variables from the dashboard.
 
-.nav-menu { display: flex; align-items: center; gap: 24px; color: rgba(23, 19, 18, 0.78); font-size: 0.93rem; }
-.nav-menu a.active { color: var(--ink); font-weight: 600; }
-.nav-actions { display: flex; align-items: center; gap: 12px; }
+2. **Deploy to Render**:
+   - Go to [render.com](https://render.com)
+   - Click "New" → "Web Service"
+   - Connect your GitHub repo: `ayubkurnool/InteriorDesignShowcase`
+   - Name: `interior-api`
+   - Environment: `Node`
+   - Region: Choose closest to your users
+   - Build command: `npm install`
+   - Start command: `node server/index.js`
+   - Instance type: Free (or paid for production)
 
-.hero-panel { display: grid; grid-template-columns: 1fr 1.15fr; gap: 36px; align-items: center; padding: 42px 0 22px; }
-.hero-copy, .hero-visual, .project-card, .service-card, .testimonial-card, .lead-form, .login-card, .panel-block, .detail-callout, .lead-copy { animation: fadeUp 0.8s ease both; }
-.hero-copy { padding: 22px 0; }
-.tag-pill { display: inline-flex; padding: 8px 14px; background: rgba(233, 209, 181, 0.5); border: 1px solid rgba(80, 64, 56, 0.08); border-radius: 999px; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: #3c2d2a; }
-.hero-copy h2 {
-  margin: 18px 0 16px;
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 600;
-  line-height: 0.95;
-  font-size: clamp(3.2rem, 5vw, 6rem);
-  letter-spacing: -0.04em;
-}
-.hero-copy p { max-width: 560px; color: var(--muted); font-size: 1.06rem; line-height: 1.8; }
-.cta-row { display: flex; align-items: center; gap: 12px; margin-top: 28px; }
-.primary-btn, .ghost-btn, .segment {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 48px;
-  padding: 0 20px;
-  border-radius: 14px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.primary-btn { background: linear-gradient(135deg, #1c1816, #504641); color: #fff; box-shadow: 0 20px 40px rgba(28, 24, 22, 0.18); }
-.ghost-btn { background: rgba(255, 255, 255, 0.5); border: 1px solid var(--line); color: var(--ink); }
-.primary-btn:hover, .ghost-btn:hover, .segment:hover { transform: translateY(-2px); }
-.wide { width: fit-content; min-width: 180px; }
-.wa-button { margin-top: 18px; }
-.bullet-list { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
-.bullet-list span { display: inline-flex; padding: 10px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.42); border: 1px solid rgba(50, 41, 37, 0.06); color: rgba(31, 26, 25, 0.8); font-size: 0.85rem; }
-.hero-visual { position: relative; }
-.slider-frame { overflow: hidden; border-radius: 30px; min-height: 640px; box-shadow: var(--shadow); border: 1px solid rgba(32, 26, 24, 0.05); }
-.slider-track { display: flex; height: 100%; min-height: 640px; transition: transform 0.8s ease; }
-.slide-card { min-width: 100%; height: 640px; position: relative; }
-.slide-card img { height: 100%; object-fit: cover; filter: saturate(0.9) contrast(1.02); }
-.slider-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
-.dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(80, 70, 65, 0.25); }
-.dot.active { background: #1f1b1a; }
+3. **Set Environment Variables** in Render Dashboard:
+   ```
+   PORT=10000
+   JWT_SECRET=your-super-secure-random-string-here
+   CLIENT_URL=https://your-vercel-frontend-url.vercel.app
+   NODE_ENV=production
+   ```
 
-.stats-band { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 28px 0 10px; }
-.stats-band > div {
-  display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 132px; background: rgba(255, 255, 255, 0.45); border: 1px solid var(--line); border-radius: 22px; padding: 18px;
-}
-.stats-band strong { font-size: clamp(1.8rem, 2vw, 2.5rem); font-weight: 700; }
-.stats-band span { color: var(--muted); margin-top: 8px; }
+4. **Deploy** → Render will host your backend API.
 
-.section-header { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-top: 76px; margin-bottom: 28px; }
-.align-start { align-items: flex-start; }
-.section-header h3 { margin: 8px 0 0; font-family: 'Cormorant Garamond', serif; font-size: clamp(2.4rem, 4vw, 4rem); font-weight: 600; letter-spacing: -0.04em; }
-.text-link { color: var(--ink); font-weight: 600; }
+5. **Copy the Render URL** (e.g., `https://interior-api-xxxxx.onrender.com`) and update Vercel's `VITE_API_URL` to this value.
 
-.projects-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
-.large-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.project-card { overflow: hidden; border-radius: 26px; background: rgba(255, 255, 255, 0.5); border: 1px solid var(--line); box-shadow: 0 24px 42px rgba(65, 49, 43, 0.06); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-.project-card:hover { transform: translateY(-8px); box-shadow: 0 30px 50px rgba(65, 49, 43, 0.1); }
-.project-image-wrap { height: 360px; overflow: hidden; }
-.project-image-wrap img { height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-.project-card:hover .project-image-wrap img { transform: scale(1.06); }
-.project-copy { padding: 20px 18px 24px; }
-.project-copy span { color: var(--muted); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; }
-.project-copy h4 { margin: 12px 0 8px; font-size: 1.6rem; font-family: 'Cormorant Garamond', serif; }
-.project-copy p { margin: 0; color: var(--muted); line-height: 1.7; }
-.card-link { display: inline-block; margin-top: 16px; color: var(--ink); font-weight: 600; }
+---
 
-.services-panel { margin-top: 78px; }
-.services-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
-.service-card { padding: 26px 20px 22px; background: rgba(255, 255, 255, 0.48); border: 1px solid var(--line); border-radius: 24px; }
-.service-icon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, #e0c7a9, #f7efe6); font-size: 1.5rem; }
-.service-card h4 { margin: 20px 0 12px; font-size: 1.5rem; }
-.service-card p { margin: 0; color: var(--muted); line-height: 1.8; }
+### Database (SQLite on Render)
 
-.testimonial-panel { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 78px; }
-.testimonial-card { padding: 28px 20px; border-radius: 24px; background: rgba(255, 255, 255, 0.46); border: 1px solid var(--line); }
-.testimonial-card p { margin: 0 0 18px; color: var(--ink); font-size: 1.08rem; line-height: 1.8; }
-.testimonial-card div { display: flex; flex-direction: column; gap: 4px; }
-.testimonial-card span { color: var(--muted); }
+- SQLite database file (`server/interior.db`) persists on Render's filesystem.
+- For production with multiple instances, migrate to **PostgreSQL** (use Supabase, Neon, or Render Postgres).
+- For now, SQLite works fine for a single-instance backend.
 
-.lead-panel { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 32px; margin-top: 80px; align-items: start; }
-.lead-copy { padding-top: 12px; }
-.lead-copy h3 { margin: 10px 0 14px; font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 4vw, 4.5rem); line-height: 0.9; }
-.lead-copy p:last-child { color: var(--muted); line-height: 1.8; }
-.lead-form { display:flex; flex-direction:column; gap:20px; padding:26px; background:rgba(255,255,255,0.52); border-radius:28px; border:1px solid var(--line); box-shadow: 0 32px 55px rgba(63, 47, 41, 0.06); }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-label { display: flex; flex-direction: column; gap: 8px; font-size: 0.92rem; color: rgba(28, 24, 22, 0.8); }
-input, select, textarea { width:100%; min-height:52px; padding:14px 16px; border-radius:14px; border:1px solid rgba(32, 26, 24, 0.08); background: rgba(255,255,255,0.8); color: var(--ink); }
-textarea { resize: vertical; min-height: 120px; }
-.status-badge, .error-text, .demo-note { margin: 0; font-size: 0.9rem; }
-.status-badge { color: #0d6f46; }
-.error-text { color: #b93939; }
-.demo-note { color: var(--muted); }
+---
 
-.login-page, .content-page, .dashboard-page { padding-top: 40px; }
-.login-card { max-width: 560px; margin: 0 auto; padding: 26px; background: rgba(255,255,255,0.52); border:1px solid var(--line); border-radius:30px; box-shadow: 0 22px 45px rgba(35,27,24,0.06); }
-.portal-header h3 { margin: 8px 0 0; font-size: 2rem; }
-.login-form { display:flex; flex-direction:column; gap:18px; }
-.portal-segment { display:flex; gap:10px; }
-.segment { flex:1; background: rgba(228,214,201,0.5); color: rgba(28,24,22,0.8); }
-.segment.active { background: #1d1a19; color: white; }
+### Running Locally
 
-.dashboard-header { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom: 24px; }
-.dashboard-header h3 { margin: 8px 0 0; font-size: clamp(2.2rem, 4vw, 3.3rem); font-family: 'Cormorant Garamond', serif; }
-.dashboard-summary { display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-.summary-card { display:flex; flex-direction:column; gap:8px; padding:16px; background: rgba(240,231,224,0.7); border-radius:18px; border:1px solid var(--line); }
-.summary-card span { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
-.summary-card strong { font-size: 1.6rem; }
-.dashboard-grid { display:grid; grid-template-columns: 1.3fr 0.7fr; gap: 20px; margin-top: 24px; }
-.panel-block { padding: 22px; background: rgba(255,255,255,0.48); border: 1px solid var(--line); border-radius: 24px; }
-.panel-block h4 { margin: 0 0 18px; font-size: 1.3rem; }
-.lead-list, .quick-actions { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; }
-.lead-list li { display:flex; justify-content:space-between; gap:12px; padding:12px 14px; border-radius: 14px; background: rgba(255,255,255,0.52); border:1px solid var(--line); }
-.lead-list div { display:flex; flex-direction:column; gap:4px; }
-.lead-list span, .lead-list small, .quick-actions { color: var(--muted); }
-.quick-actions li { padding: 12px 0; border-bottom: 1px solid var(--line); }
-.quick-actions li:last-child { border-bottom: none; }
-.empty-state { margin:0; color: var(--muted); }
+```bash
+npm install
 
-.project-detail-header { display:flex; justify-content:space-between; align-items:end; gap:20px; margin-bottom: 20px; }
-.project-detail-header h3 { margin:8px 0 0; font-size: clamp(2.2rem, 4vw, 4.2rem); font-family: 'Cormorant Garamond', serif; }
-.project-detail-hero { border-radius: 28px; overflow:hidden; box-shadow: var(--shadow); }
-.project-detail-body { display:grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; margin-top: 30px; }
-.project-detail-body h4 { margin: 0 0 12px; font-size: 2rem; font-family: 'Cormorant Garamond', serif; }
-.project-detail-body p { color: var(--muted); line-height:1.8; }
-.detail-callout { display:flex; flex-direction:column; gap:14px; padding: 26px; background: rgba(255,255,255,0.48); border: 1px solid var(--line); border-radius: 24px; }
-.detail-callout span { color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.72rem; }
-.detail-callout strong { font-size: 1.4rem; }
-.gallery-grid { display:grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap:14px; margin-top: 24px; }
-.gallery-grid img { height:300px; object-fit:cover; border-radius:22px; background:#ddd; }
+# Create a .env file for local development:
+# VITE_API_URL=http://localhost:4000
 
-@keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+npm run dev
+```
 
-@media (max-width: 1040px) {
-  .hero-panel, .lead-panel, .project-detail-body, .dashboard-grid { grid-template-columns: 1fr; }
-  .hero-panel { grid-template-columns:1fr; }
-  .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .testimonial-panel { grid-template-columns: 1fr; }
-  .large-grid { grid-template-columns: 1fr 1fr; }
-}
+Frontend: `http://localhost:3000`
+Backend: `http://localhost:4000`
 
-@media (max-width: 720px) {
-  .app-shell { padding: 16px 16px 48px; }
-  .topbar { position: static; display:grid; gap:18px; }
-  .nav-menu, .nav-actions, .cta-row, .field-row { flex-direction: column; align-items: stretch; }
-  .nav-menu { display:flex; }
-  .nav-actions { width:100%; }
-  .nav-actions > *, .ghost-btn, .primary-btn, .segment { width: 100%; }
-  .stats-band, .projects-grid, .services-grid, .dashboard-summary, .large-grid, .gallery-grid { grid-template-columns: 1fr; }
-  .slider-frame, .slide-card { min-height: 460px; }
-  .hero-copy h2 { font-size: 3rem; }
-  .dashboard-header, .project-detail-header { flex-direction: column; align-items: flex-start; }
-}
+---
 
-@media (max-width: 720px) {
-  .nav-menu { display: flex; flex-wrap: wrap; }
-}
+### Production URLs
+
+Once deployed:
+- **Frontend**: `https://your-project.vercel.app`
+- **Backend**: `https://interior-api-xxxxx.onrender.com`
+- **API calls**: Automatically routed to the Render backend via `VITE_API_URL`
+
+---
+
+### Security Checklist
+
+- [ ] Change `JWT_SECRET` to a strong, random string (use `openssl rand -base64 32`)
+- [ ] Set `CLIENT_URL` to your actual Vercel domain in Render env vars
+- [ ] Enable CORS on both services (already configured in `server/index.js`)
+- [ ] Use HTTPS for all API calls (Vercel and Render provide HTTPS by default)
+- [ ] Rotate credentials periodically
+- [ ] For production, migrate SQLite to PostgreSQL
+
+---
+
+### WhatsApp Integration
+
+Update the WhatsApp phone number in `src/App.jsx` (line with `wa.me/15550000000`):
+
+```javascript
+href="https://wa.me/YOUR_PHONE_NUMBER?text=Hi%20Atelier%20Forme..."
+```
+
+Replace `YOUR_PHONE_NUMBER` with your actual WhatsApp business number (include country code, e.g., `15551234567` for +1-555-123-4567).
+
+---
+
+### Monitoring & Logs
+
+- **Vercel**: Dashboard → Deployments → Logs
+- **Render**: Dashboard → Service → Logs
+
+---
+
+## Summary
+
+This setup is production-ready for your interior business:
+✅ Premium frontend on Vercel (global CDN)
+✅ Secure backend API on Render
+✅ SQLite database (upgrade to Postgres if needed)
+✅ WhatsApp lead generation
+✅ Admin & employee authentication
+✅ Project gallery and detail pages
